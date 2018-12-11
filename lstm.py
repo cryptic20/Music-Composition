@@ -38,7 +38,7 @@ def get_notes(artist):
 
         notes_to_parse = None
 
-        try: # file has instrument parts
+        try:  # file has instrument parts
             s2 = instrument.partitionByInstrument(midi)
             notes_to_parse = s2.parts[0].recurse()
         except:  # file has notes in a flat structure
@@ -125,4 +125,4 @@ def train(model, network_input, network_output):
 
 
 if __name__ == '__main__':
-    train_network('beethoven')
+    train_network('final-fantasy')
