@@ -49,7 +49,7 @@ def prepare_sequences(notes, pitchnames, n_vocab):
     # normalize input
     normalized_input = normalized_input / float(n_vocab)
 
-    return (network_input, normalized_input)
+    return network_input, normalized_input
 
 
 def create_network(network_input, n_vocab):
@@ -71,7 +71,7 @@ def create_network(network_input, n_vocab):
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
 
     # Load the weights to each node
-    model.load_weights('weights.hdf5')
+    model.load_weights('weights-improvement-01-4.6612-bigger.hdf5')
 
     return model
 
@@ -134,7 +134,7 @@ def create_midi(prediction_output):
 
     midi_stream = stream.Stream(output_notes)
 
-    midi_stream.write('midi', fp='output/test_output.mid')
+    midi_stream.write('midi', fp='output/new_output2.mid')
 
 
 if __name__ == '__main__':
