@@ -71,7 +71,7 @@ def create_network(network_input, n_vocab):
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
 
     # Load the weights to each node
-    model.load_weights('weights-improvement-58-0.9581-bigger.hdf5')
+    model.load_weights('weights-improvement-90-0.3492-bigger.hdf5')
 
     return model
 
@@ -134,7 +134,7 @@ def create_midi(prediction_output):
 
     midi_stream = stream.Stream(output_notes)
 
-    midi_stream.write('midi', fp='output/weights-improvement-58-0.9581-bigger.mid')
+    midi_stream.write('midi', fp='output/weights-improvement-90-0.3492-bigger2.mid')
 
 
 if __name__ == '__main__':
