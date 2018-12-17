@@ -10,7 +10,7 @@ from keras.layers import LSTM
 from keras.layers import Activation
 
 
-def generate():
+def generate(directory, count, weights):
     """ Generate a piano midi file """
 
     # load the notes used to train the model
@@ -23,9 +23,9 @@ def generate():
     n_vocab = len(set(notes))
 
     network_input, normalized_input = prepare_sequences(notes, pitchnames, n_vocab)
-    model = create_network(normalized_input, n_vocab)
+    model = create_network(normalized_input, n_vocab, weights)
     prediction_output = generate_notes(model, network_input, pitchnames, n_vocab)
-    create_midi(prediction_output)
+    create_midi(prediction_output, directory, count)
 
 
 def prepare_sequences(notes, pitchnames, n_vocab):
@@ -52,7 +52,7 @@ def prepare_sequences(notes, pitchnames, n_vocab):
     return network_input, normalized_input
 
 
-def create_network(network_input, n_vocab):
+def create_network(network_input, n_vocab, weights):
     """ create the structure of the neural network """
     model = Sequential()
     model.add(LSTM(
@@ -71,7 +71,7 @@ def create_network(network_input, n_vocab):
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
 
     # Load the weights to each node
-    model.load_weights('weights-improvement-90-0.3492-bigger.hdf5')
+    model.load_weights(weights)
 
     return model
 
@@ -103,7 +103,7 @@ def generate_notes(model, network_input, pitchnames, n_vocab):
     return prediction_output
 
 
-def create_midi(prediction_output):
+def create_midi(prediction_output, directory, count):
     """ convert the output from the prediction to notes and create a midi file
         from the notes """
     offset = 0
@@ -134,8 +134,9 @@ def create_midi(prediction_output):
 
     midi_stream = stream.Stream(output_notes)
 
-    midi_stream.write('midi', fp='output/weights-improvement-90-0.3492-bigger2.mid')
+    midi_stream.write('midi', fp=f'output/{directory}/music_{count}.mid')
 
 
 if __name__ == '__main__':
-    generate()
+    for i in range(10):
+        generate('beethoven', i, 'best_beethoven.hdf5')
